@@ -1,0 +1,50 @@
+I need HTML, CSS, and JavaScript code for a responsive website called "ProjectWise" - a project management guide for SMEs and charities. The website should follow these specifications:
+
+1. Structure:
+   - Create a responsive multi-page website with a clean, professional design
+   - Include a navigation menu that works on both desktop and mobile
+   - Pages needed: Home, About, all 12 PM knowledge areas, Tools & Templates, Real Examples
+   - Implement breadcrumb navigation for easy site traversal
+
+2. Design requirements:
+   - Color scheme: professional blues/greens with high contrast for readability
+   - Responsive design (mobile-first approach)
+   - Accessible design meeting WCAG guidelines
+   - Clean typography with sans-serif fonts for readability
+   - Card-based layout for content sections
+
+3. Home page elements:
+   - Hero section with ProjectWise logo and tagline
+   - Introduction explaining the site's purpose
+   - Grid of clickable cards for each PM knowledge area
+   - Brief author introduction section
+
+4. About page elements:
+   - Professional profile for Ankit Dhakre
+   - Background: MSc Project Management student at UCD Smurfit
+   - Professional experience: 3 years in electrical engineering (EPC field)
+   - Project context explanation
+   - References section
+
+5. Knowledge area page template:
+   - Consistent header with title and brief introduction
+   - Content area with definitions, explanations, and practical advice
+   - "Tools for this area" section
+   - "Real-world application" section
+   - Downloadable resources section
+   - Navigation to previous/next knowledge areas
+
+6. Technical specifications:
+   - HTML5, CSS3, and vanilla JavaScript (no frameworks required)
+   - CSS Grid and Flexbox for layouts
+   - Implement a responsive navigation menu that collapses to hamburger on mobile
+   - Use semantic HTML elements throughout
+   - Implement lazy loading for images
+   - Add print stylesheet for printable resources
+
+7. Features:
+   - Dark/light mode toggle
+   - Search functionality across all resources
+   - PDF generation for printable checklists
+   - Social media sharing buttons
+   - Contact form on the About page
