@@ -13,6 +13,25 @@ import {
 } from "@/components/ui/select";
 import { templates, Template } from "@/data/templates";
 
+// Get a relevant image for each template category
+const getTemplateImage = (template: Template): string => {
+  // Map of category to relevant images
+  const templateImages: Record<string, string> = {
+    "Project Planning": "https://images.unsplash.com/photo-1572177812156-58036aae439c?q=80&w=500&auto=format&fit=crop",
+    "Risk Management": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=500&auto=format&fit=crop", 
+    "Communication": "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=500&auto=format&fit=crop",
+    "Quality Management": "https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?q=80&w=500&auto=format&fit=crop",
+    "Monitoring and Evaluation": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=500&auto=format&fit=crop",
+    "Budget Management": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=500&auto=format&fit=crop",
+    "Stakeholder Management": "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=500&auto=format&fit=crop",
+    "Planning Templates": "https://images.unsplash.com/photo-1462826303085-a8c8060a9e80?q=80&w=500&auto=format&fit=crop",
+    "Strategic Planning": "https://images.unsplash.com/photo-1507208773393-40d9fc670c31?q=80&w=500&auto=format&fit=crop"
+  };
+  
+  // Default image if category not found
+  return templateImages[template.category] || "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?q=80&w=500&auto=format&fit=crop";
+};
+
 const ToolsAndTemplates = () => {
   const [location, setLocation] = useLocation();
   const [searchParams, setSearchParams] = useState(
@@ -168,32 +187,47 @@ const ToolsAndTemplates = () => {
                     {filteredTemplates.map((template) => (
                       <div
                         key={template.id}
-                        className="bg-neutral-50 dark:bg-neutral-700 rounded-lg p-5 border border-neutral-200 dark:border-neutral-600 hover:shadow-md transition-shadow cursor-pointer"
+                        className="bg-neutral-50 dark:bg-neutral-700 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-600 hover:shadow-md transition-shadow cursor-pointer"
                         onClick={() => handleSelectTemplate(template)}
                       >
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center">
-                            <span className="material-icons text-primary-500 mr-2">
-                              {template.icon}
-                            </span>
-                            <h3 className="font-heading font-medium text-lg">
-                              {template.title}
-                            </h3>
-                          </div>
-                          <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                            {template.category}
-                          </span>
+                        {/* Template image */}
+                        <div className="h-40 w-full bg-neutral-200 overflow-hidden">
+                          <img 
+                            src={getTemplateImage(template)} 
+                            alt={`${template.category} template`} 
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              // Fallback image if the dynamic one fails to load
+                              e.currentTarget.src = "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=500&auto=format&fit=crop&q=60";
+                            }}
+                          />
                         </div>
-                        <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
-                          {template.description}
-                        </p>
-                        <div className="flex justify-end">
-                          <button className="text-primary-500 hover:text-primary-600 flex items-center text-sm">
-                            <span>View template</span>
-                            <span className="material-icons text-sm ml-1">
-                              arrow_forward
+                        
+                        <div className="p-5">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center">
+                              <span className="material-icons text-primary-500 mr-2">
+                                {template.icon}
+                              </span>
+                              <h3 className="font-heading font-medium text-lg">
+                                {template.title}
+                              </h3>
+                            </div>
+                            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                              {template.category}
                             </span>
-                          </button>
+                          </div>
+                          <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
+                            {template.description}
+                          </p>
+                          <div className="flex justify-end">
+                            <button className="text-primary-500 hover:text-primary-600 flex items-center text-sm">
+                              <span>View template</span>
+                              <span className="material-icons text-sm ml-1">
+                                arrow_forward
+                              </span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
