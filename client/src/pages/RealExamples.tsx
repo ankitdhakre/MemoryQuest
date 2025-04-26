@@ -15,7 +15,7 @@ const RealExamples = () => {
   const [searchParams, setSearchParams] = useState(new URLSearchParams(window.location.search));
   const [selectedExample, setSelectedExample] = useState<Example | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sectorFilter, setSectorFilter] = useState<string>("");
+  const [sectorFilter, setSectorFilter] = useState<string>("all");
   
   const sectors = Array.from(new Set(examples.map(e => e.sector)));
   
@@ -24,7 +24,7 @@ const RealExamples = () => {
     const matchesSearch = example.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           example.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           example.organization.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSector = sectorFilter ? example.sector === sectorFilter : true;
+    const matchesSector = sectorFilter && sectorFilter !== "all" ? example.sector === sectorFilter : true;
     return matchesSearch && matchesSector;
   });
 
@@ -213,7 +213,7 @@ const RealExamples = () => {
                       <SelectValue placeholder="Filter by sector" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Sectors</SelectItem>
+                      <SelectItem value="all">All Sectors</SelectItem>
                       {sectors.map((sector) => (
                         <SelectItem key={sector} value={sector}>{sector}</SelectItem>
                       ))}
