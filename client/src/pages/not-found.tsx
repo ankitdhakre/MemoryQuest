@@ -31,11 +31,6 @@ export default function NotFound() {
                     <span className="text-primary-500 hover:text-primary-600 hover:underline cursor-pointer">Knowledge Areas</span>
                   </Link>
                 </li>
-                <li>
-                  <Link href="/tools-and-templates">
-                    <span className="text-primary-500 hover:text-primary-600 hover:underline cursor-pointer">Project Management Resources</span>
-                  </Link>
-                </li>
               </ul>
             </div>
             

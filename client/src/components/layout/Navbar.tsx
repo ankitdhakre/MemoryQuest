@@ -5,7 +5,6 @@ import { useSearch } from "@/context/SearchContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isKnowledgeAreasOpen, setIsKnowledgeAreasOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useTheme();
   const { openSearch } = useSearch();
   const [location] = useLocation();
@@ -14,28 +13,10 @@ const Navbar = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const toggleKnowledgeAreas = () => {
-    setIsKnowledgeAreasOpen(!isKnowledgeAreasOpen);
-  };
-
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Tools & Templates", path: "/tools-and-templates" },
-    { name: "Real Examples", path: "/real-examples" }
-  ];
-
-  const knowledgeAreasDropdown = [
-    { name: "Integration Management", path: "/knowledge-areas/integration-management" },
-    { name: "Scope Management", path: "/knowledge-areas/scope-management" },
-    { name: "Schedule Management", path: "/knowledge-areas/schedule-management" },
-    { name: "Cost Management", path: "/knowledge-areas/cost-management" },
-    { name: "Quality Management", path: "/knowledge-areas/quality-management" },
-    { name: "Resource Management", path: "/knowledge-areas/resource-management" },
-    { name: "Communication Management", path: "/knowledge-areas/communication-management" },
-    { name: "Risk Management", path: "/knowledge-areas/risk-management" },
-    { name: "Procurement Management", path: "/knowledge-areas/procurement-management" },
-    { name: "Stakeholder Management", path: "/knowledge-areas/stakeholder-management" }
+    { name: "Knowledge Areas", path: "/knowledge-areas" }
   ];
 
   const isActive = (path: string) => {
@@ -64,30 +45,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <div className="relative" onMouseLeave={() => setIsKnowledgeAreasOpen(false)}>
-              <button 
-                onClick={toggleKnowledgeAreas}
-                onMouseEnter={() => setIsKnowledgeAreasOpen(true)}
-                className={`font-medium ${isActive("/knowledge-areas") ? 'text-primary-500 dark:text-primary-300' : 'text-neutral-900 dark:text-white hover:text-primary-500 dark:hover:text-primary-300'} transition-colors flex items-center`}
-              >
-                Knowledge Areas
-                <span className="material-icons text-sm ml-1">expand_more</span>
-              </button>
-              {isKnowledgeAreasOpen && (
-                <div className="absolute left-0 mt-2 w-64 bg-white dark:bg-neutral-800 shadow-lg rounded-md p-2 z-50 grid grid-cols-1 gap-1">
-                  {knowledgeAreasDropdown.map((area) => (
-                    <Link 
-                      key={area.path} 
-                      href={area.path}
-                      className="px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
-                      onClick={() => setIsKnowledgeAreasOpen(false)}
-                    >
-                      {area.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
           </nav>
           
           {/* Right Side Actions */}
@@ -142,32 +99,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <div>
-              <button 
-                onClick={() => setIsKnowledgeAreasOpen(!isKnowledgeAreasOpen)}
-                className="flex justify-between items-center w-full px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
-              >
-                <span>Knowledge Areas</span>
-                <span className={`material-icons ${isKnowledgeAreasOpen ? 'transform rotate-180' : ''}`}>expand_more</span>
-              </button>
-              {isKnowledgeAreasOpen && (
-                <div className="bg-neutral-50 dark:bg-neutral-800 pl-8">
-                  {knowledgeAreasDropdown.map((area) => (
-                    <Link 
-                      key={area.path} 
-                      href={area.path}
-                      className="block px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
-                      onClick={() => {
-                        setIsKnowledgeAreasOpen(false);
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      {area.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
           </nav>
         </div>
       )}

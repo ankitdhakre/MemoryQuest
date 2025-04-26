@@ -10,8 +10,6 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import KnowledgeAreas from "@/pages/KnowledgeAreas";
 import KnowledgeAreaDetail from "@/pages/KnowledgeAreaDetail";
-import ToolsAndTemplates from "@/pages/ToolsAndTemplates";
-import RealExamples from "@/pages/RealExamples";
 import SearchModal from "@/components/layout/SearchModal";
 import { ThemeProvider } from "./context/ThemeContext";
 import { SearchProvider, useSearch } from "./context/SearchContext";
@@ -24,10 +22,6 @@ function Router() {
       <Route path="/about" component={About} />
       <Route path="/knowledge-areas" component={KnowledgeAreas} />
       <Route path="/knowledge-areas/:slug" component={KnowledgeAreaDetail} />
-      <Route path="/tools-and-templates" component={ToolsAndTemplates} />
-      {/* Add specific route for template with parameter for direct access */}
-      <Route path="/tools-and-templates/:params*" component={ToolsAndTemplates} />
-      <Route path="/real-examples" component={RealExamples} />
       <Route component={NotFound} />
     </Switch>
   );
