@@ -43,11 +43,19 @@ const ToolsAndTemplates = () => {
     
     // Check if there's a template ID in the URL
     const templateId = params.get("template");
+    console.log("Template ID from URL:", templateId);
+    
     if (templateId) {
-      const template = templates.find((t) => t.id === parseInt(templateId));
+      const templateIdNum = parseInt(templateId);
+      console.log("Looking for template with ID:", templateIdNum);
+      
+      const template = templates.find((t) => t.id === templateIdNum);
+      console.log("Found template:", template);
+      
       if (template) {
         setSelectedTemplate(template);
       } else {
+        console.log("Template not found, clearing parameter");
         // If template not found, clear the parameter
         const cleanParams = new URLSearchParams(params);
         cleanParams.delete("template");
@@ -179,13 +187,7 @@ const ToolsAndTemplates = () => {
                         <p className="text-neutral-600 dark:text-neutral-400 text-sm mb-3">
                           {template.description}
                         </p>
-                        <div className="flex justify-between items-center">
-                          <div className="text-sm text-neutral-500 dark:text-neutral-400">
-                            <span className="material-icons text-xs inline-block mr-1">
-                              cloud_download
-                            </span>
-                            {template.downloads} downloads
-                          </div>
+                        <div className="flex justify-end">
                           <button className="text-primary-500 hover:text-primary-600 flex items-center text-sm">
                             <span>View template</span>
                             <span className="material-icons text-sm ml-1">

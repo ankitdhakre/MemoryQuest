@@ -85,11 +85,7 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
         </div>
       </div>
       
-      <div className="flex justify-between items-center">
-        <div className="text-sm text-neutral-500 dark:text-neutral-400">
-          <span className="material-icons text-xs inline-block mr-1">cloud_download</span>
-          {template.downloads} downloads
-        </div>
+      <div className="flex justify-end">
         <Button 
           onClick={handleDownload}
           disabled={isDownloading}
