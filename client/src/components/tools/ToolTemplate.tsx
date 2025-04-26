@@ -7,24 +7,6 @@ interface ToolTemplateProps {
   template: Template;
 }
 
-// Helper function to get template URL based on category
-const getTemplateUrl = (template: Template): string => {
-  // Map of category to real-world template resources
-  const templateLinks: Record<string, string> = {
-    "Project Planning": "https://www.projectmanagement.com/contentPages/downloadTemplate.cfm?ID=327&thisPageURL=/templates/327/project-management-plan-template",
-    "Risk Management": "https://www.smartsheet.com/content/risk-management-templates",
-    "Communication": "https://asana.com/templates/for/communications",
-    "Quality Management": "https://www.projectmanager.com/templates/quality-management-plan-template",
-    "Monitoring and Evaluation": "https://www.betterevaluation.org/resources/template/monitoring_evaluation_plan_template",
-    "Budget Management": "https://www.template.net/business/budget-templates/project-budget/",
-    "Stakeholder Management": "https://www.projectmanager.com/templates/stakeholder-management-plan-template",
-    "Planning Templates": "https://www.projectmanager.com/templates/project-planning-templates"
-  };
-  
-  // Default to a general templates collection if specific category not found
-  return templateLinks[template.category] || "https://www.projectmanager.com/templates";
-};
-
 // Helper function to get project management information link based on template title/category
 const getProjectManagementInfoLink = (template: Template): string => {
   // Key information links for project management knowledge areas
@@ -138,20 +120,6 @@ const getTemplateImage = (template: Template): string => {
 };
 
 const ToolTemplate = ({ template }: ToolTemplateProps) => {
-  const [isDownloading, setIsDownloading] = useState(false);
-
-  // Function to handle external link redirect for templates
-  const handleTemplateAccess = () => {
-    setIsDownloading(true);
-    
-    // Simulate tracking
-    setTimeout(() => {
-      // Open the external resource in a new tab
-      window.open(getTemplateUrl(template), '_blank');
-      setIsDownloading(false);
-    }, 500);
-  };
-  
   // Function to handle info link redirect
   const handleInfoAccess = () => {
     // Open the project management info resource in a new tab
@@ -160,11 +128,11 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
 
   return (
     <div className="bg-neutral-50 dark:bg-neutral-700 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-600">
-      {/* Template image */}
+      {/* PM Knowledge Image */}
       <div className="h-64 w-full bg-neutral-200 overflow-hidden">
         <img 
           src={getTemplateImage(template)} 
-          alt={`${template.category} template image`} 
+          alt={`${template.title} knowledge area image`} 
           className="w-full h-full object-cover"
         />
       </div>
@@ -173,72 +141,36 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-heading font-medium text-xl flex items-center">
             <span className="material-icons text-primary-500 mr-2">{template.icon}</span>
-            {template.title}
+            {template.title.replace('Template', 'Knowledge')}
           </h3>
           <div className="flex items-center space-x-2">
-            <ShareButtons title={template.title} path={`/tools-and-templates?template=${template.id}`} />
+            <ShareButtons title={template.title.replace('Template', 'Knowledge')} path={`/tools-and-templates?template=${template.id}`} />
           </div>
         </div>
         
         <p className="text-neutral-700 dark:text-neutral-300 mb-4">
-          {template.description}
+          {template.description.replace('template', 'resource').replace('Template', 'Resource')}
         </p>
         
-        <div className="mb-4">
-          <h4 className="font-medium text-sm text-neutral-500 dark:text-neutral-400 uppercase mb-2">Details</h4>
-          <div className="grid grid-cols-2 gap-2 text-sm">
-            <div>
-              <span className="font-medium">Category:</span> {template.category}
-            </div>
-            <div>
-              <span className="font-medium">Format:</span> {template.format}
-            </div>
-            <div>
-              <span className="font-medium">Size:</span> {template.size}
-            </div>
-            <div>
-              <span className="font-medium">Last Updated:</span> {template.lastUpdated}
-            </div>
-          </div>
-        </div>
-        
         <div className="bg-neutral-100 dark:bg-neutral-600 p-4 rounded-lg mb-4">
-          <h4 className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-2">Project Management Knowledge</h4>
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
-            This template relates to important project management concepts and methodologies.
-            Click below to learn more about the project management principles behind this template.
+          <h4 className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-2">Project Management Information</h4>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+            This resource provides in-depth information about project management concepts and methodologies.
+            Click below to learn more about these important project management principles.
           </p>
-          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400 mb-3">
             <span className="material-icons text-xs mr-1">school</span>
             <span className="truncate">{getProjectManagementInfoLink(template)}</span>
           </div>
-          <button 
-            onClick={handleInfoAccess}
-            className="text-primary-500 hover:text-primary-600 text-sm flex items-center mt-2"
-          >
-            <span className="material-icons mr-1 text-sm">info</span>
-            Learn about Project Management
-          </button>
-        </div>
-        
-        <div className="flex justify-end">
-          <Button 
-            onClick={handleTemplateAccess}
-            disabled={isDownloading}
-            className="bg-primary-500 hover:bg-primary-600 text-white"
-          >
-            {isDownloading ? (
-              <>
-                <span className="material-icons animate-spin mr-2 text-sm">refresh</span>
-                Redirecting...
-              </>
-            ) : (
-              <>
-                <span className="material-icons mr-2 text-sm">open_in_new</span>
-                For More Info Go There
-              </>
-            )}
-          </Button>
+          <div className="flex justify-center">
+            <Button 
+              onClick={handleInfoAccess}
+              className="bg-primary-500 hover:bg-primary-600 text-white"
+            >
+              <span className="material-icons mr-2 text-sm">open_in_new</span>
+              For More Info Go There
+            </Button>
+          </div>
         </div>
       </div>
     </div>

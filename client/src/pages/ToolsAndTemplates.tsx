@@ -166,10 +166,10 @@ const ToolsAndTemplates = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <h1 className="font-heading font-bold text-3xl md:text-4xl mb-4 text-center">
-              Tools & Templates
+              Project Management Knowledge Areas
             </h1>
             <p className="text-neutral-700 dark:text-neutral-300 text-center mb-10">
-              Ready-to-use resources to help you implement project management
+              Comprehensive resources to help you understand and implement project management
               principles in your organization.
             </p>
 
@@ -195,7 +195,7 @@ const ToolsAndTemplates = () => {
                   className="flex items-center text-primary-500 hover:text-primary-600 mb-4"
                 >
                   <span className="material-icons mr-1">arrow_back</span>
-                  <span>Back to all templates</span>
+                  <span>Back to all knowledge areas</span>
                 </button>
 
                 {/* Fallback content in case ToolTemplate fails */}
