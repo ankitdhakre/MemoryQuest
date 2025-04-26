@@ -1,0 +1,12 @@
+Failed to generate PDF: 
+TypeError {}
+message: "Cannot read properties of undefined (reading 'type')"
+stack: "TypeError: Cannot read properties of undefined (reading 'type')↵ at generatePdf (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/src/lib/pdfUtils.ts:30:23)↵ at handleDownload (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/src/components/tools/ToolTemplate.tsx:28:13)↵ at HTMLUnknownElement.callCallback2 (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:3674:22)↵ at Object.invokeGuardedCallbackDev (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:3699:24)↵ at invokeGuardedCallback (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:3733:39)↵ at invokeGuardedCallbackAndCatchFirstError (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:3736:33)↵ at executeDispatch (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:7014:11)↵ at processDispatchQueueItemsInOrder (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:7034:15)↵ at processDispatchQueue (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:7043:13)↵ at dispatchEventsForPlugins (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=00dfd2f0:7051:11)"
+get stack: ƒ ()
+set stack: ƒ ()
+[[Prototype]]: Object
+
+at t.value (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://2d69612b-5f8a-475f-a546-91705992a318-00-3b0on8cz0ognw.picard.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://2d6961

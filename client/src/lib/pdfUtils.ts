@@ -47,8 +47,13 @@ export const generatePdf = async (content: PdfContent, customFilename?: string) 
   doc.setFontSize(12);
   doc.setTextColor(0, 0, 0);
   
+  // Ensure content exists before trying to access properties
+  if (!content.content) {
+    // Simple fallback if content object is empty or undefined
+    doc.text("No content available", 20, 55);
+  } 
   // Handle different content types
-  if (content.content.type === "checklist" && Array.isArray(content.content.items)) {
+  else if (content.content.type === "checklist" && Array.isArray(content.content.items)) {
     // For checklists
     doc.text("Checklist Items:", 20, 55);
     
@@ -82,13 +87,13 @@ export const generatePdf = async (content: PdfContent, customFilename?: string) 
     const splitText = doc.splitTextToSize(content.content, 170);
     doc.text(splitText, 20, 55);
   } else {
-    // For general object content
+    // For general object content (like template details)
     let yPos = 55;
     
     Object.entries(content.content).forEach(([key, value]: [string, any]) => {
       if (typeof value === "string") {
         doc.setFontSize(14);
-        doc.text(key, 20, yPos);
+        doc.text(key.charAt(0).toUpperCase() + key.slice(1), 20, yPos); // Capitalize first letter
         yPos += 7;
         
         doc.setFontSize(12);

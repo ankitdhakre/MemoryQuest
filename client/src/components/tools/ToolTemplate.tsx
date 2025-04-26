@@ -14,7 +14,18 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
   const handleDownload = async () => {
     setIsGenerating(true);
     try {
-      await generatePdf(template);
+      // Create a properly formatted PdfContent object
+      const pdfContent = {
+        title: template.title,
+        content: {
+          description: template.description,
+          category: template.category,
+          format: template.format,
+          size: template.size,
+          lastUpdated: template.lastUpdated
+        }
+      };
+      await generatePdf(pdfContent, `${template.title.replace(/\s+/g, '-').toLowerCase()}.pdf`);
     } catch (error) {
       console.error("Failed to generate PDF:", error);
     } finally {
