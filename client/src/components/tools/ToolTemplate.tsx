@@ -17,11 +17,50 @@ const getTemplateUrl = (template: Template): string => {
     "Quality Management": "https://www.projectmanager.com/templates/quality-management-plan-template",
     "Monitoring and Evaluation": "https://www.betterevaluation.org/resources/template/monitoring_evaluation_plan_template",
     "Budget Management": "https://www.template.net/business/budget-templates/project-budget/",
-    "Stakeholder Management": "https://www.projectmanager.com/templates/stakeholder-management-plan-template"
+    "Stakeholder Management": "https://www.projectmanager.com/templates/stakeholder-management-plan-template",
+    "Planning Templates": "https://www.projectmanager.com/templates/project-planning-templates"
   };
   
   // Default to a general templates collection if specific category not found
   return templateLinks[template.category] || "https://www.projectmanager.com/templates";
+};
+
+// Helper function to get project management information link based on template title/category
+const getProjectManagementInfoLink = (template: Template): string => {
+  // Key information links for project management knowledge areas
+  const pmInfoLinks: Record<string, string> = {
+    "Integration Management": "https://www.sprintzeal.com/blog/project-integration-management",
+    "Scope Management": "https://www.whizlabs.com/blog/project-scope-management/",
+    "Schedule Management": "https://www.edureka.co/blog/project-schedule-management/",
+    "Cost Management": "https://www.migso-pcubed.com/blog/cost-management/the-4-step-cost-management-process/",
+    "Quality Management": "https://www.qualitygurus.com/quality-management-what-it-is/",
+    "Resource Management": "https://www.shopify.com/blog/what-is-resource-management",
+    "Communication Management": "https://www.culturemonkey.io/employee-engagement/management-communication/",
+    "Risk Management": "https://www.mega.com/blog/what-is-risk-management-process",
+    "Procurement Management": "https://docshipper.com/guest-blogging/steps-procurement-management-optimize-processes/",
+    "Stakeholder Management": "https://www.brentnalls-sa.com.au/the-importance-of-stakeholder-management",
+    "Change Management": "https://whatfix.com/change-management/",
+    "Benefit Management": "https://ipma.world/guide-effective-benefits-management/",
+    "Project Management": "https://projectmanagement.ie/blog/what-is-project-management/"
+  };
+  
+  // Try to match based on title keywords
+  if (template.title.includes("Charter")) {
+    return "https://asana.com/resources/project-integration-management";
+  } else if (template.title.includes("WBS") || template.title.includes("Scope")) {
+    return "https://kissflow.com/project/project-scope-management/";
+  } else if (template.title.includes("Schedule") || template.title.includes("Gantt")) {
+    return "https://www.projectmanager.com/blog/schedule-management-tips";
+  } else if (template.title.includes("Budget") || template.title.includes("Cost")) {
+    return "https://www.techtarget.com/whatis/definition/cost-management";
+  } else if (template.title.includes("Risk")) {
+    return "https://projectmanagement.ie/blog/project-risk-management/";
+  } else if (template.title.includes("Stakeholder")) {
+    return "https://projectmanagement.ie/blog/what-is-stakeholder-management/";
+  }
+  
+  // Default to general PM info if no specific match
+  return "https://projectmanagement.ie/blog/what-is-project-management/";
 };
 
 // Get a relevant image for each template category
@@ -61,16 +100,22 @@ const getTemplateImage = (template: Template): string => {
 const ToolTemplate = ({ template }: ToolTemplateProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // Function to handle external link redirect with download tracking
-  const handleDownload = () => {
+  // Function to handle external link redirect for templates
+  const handleTemplateAccess = () => {
     setIsDownloading(true);
     
-    // Simulate download tracking
+    // Simulate tracking
     setTimeout(() => {
       // Open the external resource in a new tab
       window.open(getTemplateUrl(template), '_blank');
       setIsDownloading(false);
     }, 500);
+  };
+  
+  // Function to handle info link redirect
+  const handleInfoAccess = () => {
+    // Open the project management info resource in a new tab
+    window.open(getProjectManagementInfoLink(template), '_blank');
   };
 
   return (
@@ -118,10 +163,29 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
         </div>
         
         <div className="bg-neutral-100 dark:bg-neutral-600 p-4 rounded-lg mb-4">
-          <h4 className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-2">Template Preview</h4>
+          <h4 className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-2">Project Management Knowledge</h4>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+            This template relates to important project management concepts and methodologies.
+            Click below to learn more about the project management principles behind this template.
+          </p>
+          <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+            <span className="material-icons text-xs mr-1">school</span>
+            <span className="truncate">{getProjectManagementInfoLink(template)}</span>
+          </div>
+          <button 
+            onClick={handleInfoAccess}
+            className="text-primary-500 hover:text-primary-600 text-sm flex items-center mt-2"
+          >
+            <span className="material-icons mr-1 text-sm">info</span>
+            Learn about Project Management
+          </button>
+        </div>
+        
+        <div className="bg-neutral-100 dark:bg-neutral-600 p-4 rounded-lg mb-4">
+          <h4 className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-2">Template Resource</h4>
           <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
             This template provides a comprehensive framework for {template.category.toLowerCase()} in your organization.
-            Click the button below to access professional templates from trusted project management resources.
+            For more information on how to use and implement this template, click the link below.
           </p>
           <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400">
             <span className="material-icons text-xs mr-1">link</span>
@@ -131,7 +195,7 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
         
         <div className="flex justify-end">
           <Button 
-            onClick={handleDownload}
+            onClick={handleTemplateAccess}
             disabled={isDownloading}
             className="bg-primary-500 hover:bg-primary-600 text-white"
           >
@@ -143,7 +207,7 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
             ) : (
               <>
                 <span className="material-icons mr-2 text-sm">open_in_new</span>
-                Access Template
+                For More Info Go There
               </>
             )}
           </Button>

@@ -15,20 +15,29 @@ import { templates, Template } from "@/data/templates";
 
 // Get a relevant image for each template category
 const getTemplateImage = (template: Template): string => {
-  // Map of category to relevant images
+  // Map of category to relevant images (unchanged)
   const templateImages: Record<string, string> = {
-    "Project Planning": "https://images.unsplash.com/photo-1460794418188-1bb7dba2720d?w=500&auto=format&fit=crop&q=60",
-    "Risk Management": "https://images.unsplash.com/photo-1606189455660-927d4564efb5?w=500&auto=format&fit=crop&q=60", 
-    "Communication": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&auto=format&fit=crop&q=60",
-    "Quality Management": "https://images.unsplash.com/photo-1568430462989-44163eb1b109?w=500&auto=format&fit=crop&q=60",
-    "Monitoring and Evaluation": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60",
-    "Budget Management": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&auto=format&fit=crop&q=60",
-    "Stakeholder Management": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&auto=format&fit=crop&q=60",
-    "Planning Templates": "https://images.unsplash.com/photo-1581574919402-5b7d733224d6?w=500&auto=format&fit=crop&q=60",
-    "Strategic Planning": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&auto=format&fit=crop&q=60"
+    "Project Planning":
+      "https://images.unsplash.com/photo-1460794418188-1bb7dba2720d?w=500&auto=format&fit=crop&q=60",
+    "Risk Management":
+      "https://images.unsplash.com/photo-1606189455660-927d4564efb5?w=500&auto=format&fit=crop&q=60",
+    Communication:
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&auto=format&fit=crop&q=60",
+    "Quality Management":
+      "https://images.unsplash.com/photo-1568430462989-44163eb1b109?w=500&auto=format&fit=crop&q=60",
+    "Monitoring and Evaluation":
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60",
+    "Budget Management":
+      "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&auto=format&fit=crop&q=60",
+    "Stakeholder Management":
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&auto=format&fit=crop&q=60",
+    "Planning Templates":
+      "https://images.unsplash.com/photo-1581574919402-5b7d733224d6?w=500&auto=format&fit=crop&q=60",
+    "Strategic Planning":
+      "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&auto=format&fit=crop&q=60",
   };
-  
-  // For templates that don't match exact categories, try to match by title
+
+  // For templates that don't match exact categories, try to match by title (unchanged)
   if (!templateImages[template.category]) {
     if (template.title.includes("Charter")) {
       return "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&auto=format&fit=crop&q=60"; // Project Charter
@@ -42,9 +51,12 @@ const getTemplateImage = (template: Template): string => {
       return "https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=500&auto=format&fit=crop&q=60"; // Budget
     }
   }
-  
+
   // Default image if category and title-based matching both fail
-  return templateImages[template.category] || "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?w=500&auto=format&fit=crop&q=60";
+  return (
+    templateImages[template.category] ||
+    "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?w=500&auto=format&fit=crop&q=60"
+  );
 };
 
 const ToolsAndTemplates = () => {
@@ -65,9 +77,10 @@ const ToolsAndTemplates = () => {
     const matchesSearch =
       template.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       template.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter && categoryFilter !== "all"
-      ? template.category === categoryFilter
-      : true;
+    const matchesCategory =
+      categoryFilter && categoryFilter !== "all"
+        ? template.category === categoryFilter
+        : true;
     return matchesSearch && matchesCategory;
   });
 
@@ -75,22 +88,23 @@ const ToolsAndTemplates = () => {
     // Get URL parameters
     const params = new URLSearchParams(window.location.search);
     setSearchParams(params);
-    
+
     // Check if there's a template ID in the URL
     const templateId = params.get("template");
     console.log("Template ID from URL:", templateId);
-    
+
     if (templateId) {
       const templateIdNum = parseInt(templateId);
       console.log("Looking for template with ID:", templateIdNum);
-      
+
       // Find the template by ID
       const template = templates.find((t) => t.id === templateIdNum);
       console.log("Found template:", template);
-      
+
       if (template) {
         // Successfully found the template, display it
         setSelectedTemplate(template);
+        console.log("Setting selected template:", template);
       } else {
         console.log("Template not found, clearing parameter");
         // If template not found, clear the parameter
@@ -99,22 +113,30 @@ const ToolsAndTemplates = () => {
         setLocation(`/tools-and-templates?${cleanParams.toString()}`);
       }
     } else {
+      console.log("No template ID in URL, showing list view");
       // No template ID in URL, show the list view
       setSelectedTemplate(null);
     }
   }, [location, setLocation]);
+
+  // Debug: Log when selectedTemplate changes
+  useEffect(() => {
+    console.log("selectedTemplate state changed:", selectedTemplate);
+  }, [selectedTemplate]);
 
   const handleSelectCategory = (value: string) => {
     setCategoryFilter(value);
   };
 
   const handleSelectTemplate = (template: Template) => {
+    console.log("Template selected:", template);
     const params = new URLSearchParams(searchParams);
     params.set("template", template.id.toString());
     setLocation(`/tools-and-templates?${params.toString()}`);
   };
 
   const closeSelectedTemplate = () => {
+    console.log("Closing template view");
     const params = new URLSearchParams(searchParams);
     params.delete("template");
     setLocation(`/tools-and-templates?${params.toString()}`);
@@ -151,6 +173,21 @@ const ToolsAndTemplates = () => {
               principles in your organization.
             </p>
 
+            {/* Debug information */}
+            {process.env.NODE_ENV === "development" && (
+              <div className="mb-4 p-2 bg-yellow-100 border border-yellow-300 rounded text-sm">
+                <div>
+                  Debug: selectedTemplate is {selectedTemplate ? "SET" : "NULL"}
+                </div>
+                {selectedTemplate && (
+                  <div>
+                    Selected template ID: {selectedTemplate.id}, Title:{" "}
+                    {selectedTemplate.title}
+                  </div>
+                )}
+              </div>
+            )}
+
             {selectedTemplate ? (
               <div className="mb-8">
                 <button
@@ -161,6 +198,17 @@ const ToolsAndTemplates = () => {
                   <span>Back to all templates</span>
                 </button>
 
+                {/* Fallback content in case ToolTemplate fails */}
+                <div className="mb-4">
+                  <h2 className="font-heading font-bold text-2xl mb-2">
+                    {selectedTemplate.title}
+                  </h2>
+                  <p className="text-neutral-600 dark:text-neutral-400">
+                    {selectedTemplate.description}
+                  </p>
+                </div>
+
+                {/* The actual template component */}
                 <ToolTemplate template={selectedTemplate} />
               </div>
             ) : (
@@ -211,17 +259,18 @@ const ToolsAndTemplates = () => {
                       >
                         {/* Template image */}
                         <div className="h-40 w-full bg-neutral-200 overflow-hidden">
-                          <img 
-                            src={getTemplateImage(template)} 
-                            alt={`${template.category} template`} 
+                          <img
+                            src={getTemplateImage(template)}
+                            alt={`${template.category} template`}
                             className="w-full h-full object-cover"
                             onError={(e) => {
                               // Fallback image if the dynamic one fails to load
-                              e.currentTarget.src = "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=500&auto=format&fit=crop&q=60";
+                              e.currentTarget.src =
+                                "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=500&auto=format&fit=crop&q=60";
                             }}
                           />
                         </div>
-                        
+
                         <div className="p-5">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center">
@@ -241,7 +290,7 @@ const ToolsAndTemplates = () => {
                           </p>
                           <div className="flex justify-end">
                             <button className="text-primary-500 hover:text-primary-600 flex items-center text-sm">
-                              <span>View template</span>
+                              <span>For More Info Go There</span>
                               <span className="material-icons text-sm ml-1">
                                 arrow_forward
                               </span>
