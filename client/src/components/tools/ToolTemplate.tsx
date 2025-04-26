@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Template } from "@/data/templates";
-import { generatePdf } from "@/lib/pdfUtils";
 import { useState } from "react";
 import ShareButtons from "../shared/ShareButtons";
 
@@ -8,194 +7,36 @@ interface ToolTemplateProps {
   template: Template;
 }
 
-const ToolTemplate = ({ template }: ToolTemplateProps) => {
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  const handleDownload = async () => {
-    setIsGenerating(true);
-    try {
-      // Generate template-specific sample content based on the template category
-      const templateSpecificContent = getTemplateSpecificContent(template);
-      
-      // Create a properly formatted PdfContent object with TemplateContent type
-      const pdfContent = {
-        title: template.title,
-        content: {
-          type: "template" as const, // Using 'as const' to make TypeScript recognize this as a literal
-          sections: {
-            "Overview": template.description,
-            ...templateSpecificContent
-          }
-        }
-      };
-      await generatePdf(pdfContent, `${template.title.replace(/\s+/g, '-').toLowerCase()}.pdf`);
-    } catch (error) {
-      console.error("Failed to generate PDF:", error);
-    } finally {
-      setIsGenerating(false);
-    }
+// Helper function to get template URL based on category
+const getTemplateUrl = (template: Template): string => {
+  // Map of category to real-world template resources
+  const templateLinks: Record<string, string> = {
+    "Project Planning": "https://www.projectmanagement.com/contentPages/downloadTemplate.cfm?ID=327&thisPageURL=/templates/327/project-management-plan-template",
+    "Risk Management": "https://www.smartsheet.com/content/risk-management-templates",
+    "Communication": "https://asana.com/templates/for/communications",
+    "Quality Management": "https://www.projectmanager.com/templates/quality-management-plan-template",
+    "Monitoring and Evaluation": "https://www.betterevaluation.org/resources/template/monitoring_evaluation_plan_template",
+    "Budget Management": "https://www.template.net/business/budget-templates/project-budget/",
+    "Stakeholder Management": "https://www.projectmanager.com/templates/stakeholder-management-plan-template"
   };
   
-  // Helper function to generate content specific to the template category
-  const getTemplateSpecificContent = (template: Template) => {
-    switch(template.category) {
-      case "Project Planning":
-        return {
-          "Project Definition": [
-            "Project title and description",
-            "Business case and project justification",
-            "Project objectives and success criteria",
-            "Key stakeholders and their expectations"
-          ],
-          "Scope Management": [
-            "Project deliverables and exclusions",
-            "Constraints and assumptions",
-            "Work breakdown structure (WBS)",
-            "Scope change control procedures"
-          ],
-          "Time Management": [
-            "Project schedule/timeline",
-            "Key milestones and dependencies",
-            "Resource allocation timeline",
-            "Schedule management approach"
-          ],
-          "Resource Planning": [
-            "Team structure and roles",
-            "External resource requirements",
-            "Budget allocation and financial considerations",
-            "Equipment and materials needed"
-          ]
-        };
-      
-      case "Risk Management":
-        return {
-          "Risk Identification": [
-            "Potential risks and their sources",
-            "Risk categories (strategic, operational, financial, compliance)",
-            "Risk assessment methodology",
-            "Risk register template"
-          ],
-          "Risk Analysis": [
-            "Probability and impact assessment",
-            "Risk prioritization matrix",
-            "Qualitative and quantitative analysis techniques",
-            "Risk exposure calculation"
-          ],
-          "Risk Response Planning": [
-            "Risk mitigation strategies",
-            "Risk avoidance approaches",
-            "Risk transfer options",
-            "Risk acceptance criteria"
-          ],
-          "Risk Monitoring": [
-            "Risk tracking mechanisms",
-            "Early warning indicators",
-            "Reporting structures",
-            "Response effectiveness evaluation"
-          ]
-        };
-        
-      case "Communication":
-        return {
-          "Stakeholder Analysis": [
-            "Stakeholder identification and mapping",
-            "Power/interest grid",
-            "Engagement level assessment",
-            "Stakeholder priorities and concerns"
-          ],
-          "Communication Strategy": [
-            "Communication objectives and success criteria",
-            "Key messages by stakeholder group",
-            "Communication channels and frequency",
-            "Feedback mechanisms"
-          ],
-          "Communication Matrix": [
-            "Who needs what information",
-            "When information should be distributed",
-            "How information will be delivered",
-            "Who is responsible for communication"
-          ],
-          "Reporting Structure": [
-            "Progress reporting format and schedule",
-            "Escalation procedures",
-            "Meeting cadence and participants",
-            "Documentation requirements"
-          ]
-        };
-        
-      case "Quality Management":
-        return {
-          "Quality Planning": [
-            "Quality standards and requirements",
-            "Quality metrics and acceptance criteria",
-            "Quality assurance approach",
-            "Quality control processes"
-          ],
-          "Quality Assurance": [
-            "Process audit schedules",
-            "Standards compliance checklist",
-            "Training requirements",
-            "Continuous improvement mechanisms"
-          ],
-          "Quality Control": [
-            "Testing and inspection procedures",
-            "Defect tracking methodology",
-            "Correction and prevention actions",
-            "Verification and validation approach"
-          ],
-          "Quality Tools": [
-            "Root cause analysis techniques",
-            "Statistical quality control methods",
-            "Quality reviews and inspections",
-            "Documentation practices"
-          ]
-        };
-        
-      case "Monitoring and Evaluation":
-        return {
-          "Performance Metrics": [
-            "Key performance indicators (KPIs)",
-            "Data collection methodology",
-            "Baseline measurements",
-            "Target values and thresholds"
-          ],
-          "Evaluation Framework": [
-            "Evaluation questions and criteria",
-            "Evaluation methods and tools",
-            "Timing and frequency of evaluations",
-            "Roles and responsibilities"
-          ],
-          "Reporting System": [
-            "Report types and formats",
-            "Reporting schedule",
-            "Information dissemination plan",
-            "Data visualization approaches"
-          ],
-          "Learning and Adaptation": [
-            "Lessons learned documentation",
-            "Continuous improvement process",
-            "Knowledge management system",
-            "Feedback incorporation mechanisms"
-          ]
-        };
-        
-      default:
-        // Default generic content if category doesn't match
-        return {
-          "Template Information": [
-            `Category: ${template.category}`,
-            `Format: ${template.format}`,
-            `Size: ${template.size}`,
-            `Last Updated: ${template.lastUpdated}`
-          ],
-          "Instructions": [
-            "Download and customize this template to fit your specific needs",
-            "Fill in all required sections with your project information",
-            "Share with relevant stakeholders for review and input",
-            "Update regularly throughout your project lifecycle"
-          ]
-        };
-    }
+  // Default to a general templates collection if specific category not found
+  return templateLinks[template.category] || "https://www.projectmanager.com/templates";
+};
+
+const ToolTemplate = ({ template }: ToolTemplateProps) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  // Function to handle external link redirect with download tracking
+  const handleDownload = () => {
+    setIsDownloading(true);
+    
+    // Simulate download tracking
+    setTimeout(() => {
+      // Open the external resource in a new tab
+      window.open(getTemplateUrl(template), '_blank');
+      setIsDownloading(false);
+    }, 500);
   };
 
   return (
@@ -232,6 +73,18 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
         </div>
       </div>
       
+      <div className="bg-neutral-100 dark:bg-neutral-600 p-4 rounded-lg mb-4">
+        <h4 className="font-medium text-sm text-neutral-600 dark:text-neutral-300 mb-2">Template Preview</h4>
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
+          This template provides a comprehensive framework for {template.category.toLowerCase()} in your organization.
+          Click the download button below to access professional templates from trusted project management resources.
+        </p>
+        <div className="flex items-center text-sm text-neutral-500 dark:text-neutral-400">
+          <span className="material-icons text-xs mr-1">link</span>
+          <span className="truncate">{getTemplateUrl(template)}</span>
+        </div>
+      </div>
+      
       <div className="flex justify-between items-center">
         <div className="text-sm text-neutral-500 dark:text-neutral-400">
           <span className="material-icons text-xs inline-block mr-1">cloud_download</span>
@@ -239,18 +92,18 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
         </div>
         <Button 
           onClick={handleDownload}
-          disabled={isGenerating}
+          disabled={isDownloading}
           className="bg-primary-500 hover:bg-primary-600 text-white"
         >
-          {isGenerating ? (
+          {isDownloading ? (
             <>
               <span className="material-icons animate-spin mr-2 text-sm">refresh</span>
-              Generating...
+              Redirecting...
             </>
           ) : (
             <>
-              <span className="material-icons mr-2 text-sm">download</span>
-              Download PDF
+              <span className="material-icons mr-2 text-sm">open_in_new</span>
+              Access Template
             </>
           )}
         </Button>
