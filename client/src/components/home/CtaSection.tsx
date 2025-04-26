@@ -8,18 +8,12 @@ const CtaSection = () => {
         <p className="max-w-2xl mx-auto mb-8 text-white/90">
           Get started with our resources today and deliver more successful projects for your organization.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex justify-center">
           <Link 
             href="/knowledge-areas"
             className="bg-white text-primary-600 hover:bg-neutral-100 font-medium px-6 py-3 rounded-md transition-colors shadow-lg inline-block"
           >
             Start with Knowledge Areas
-          </Link>
-          <Link 
-            href="/tools-and-templates"
-            className="bg-transparent border-2 border-white hover:bg-white/10 px-6 py-3 rounded-md transition-colors inline-block"
-          >
-            Download Free Templates
           </Link>
         </div>
       </div>
