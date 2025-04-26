@@ -72,6 +72,7 @@ const ToolsAndTemplates = () => {
   });
 
   useEffect(() => {
+    // Get URL parameters
     const params = new URLSearchParams(window.location.search);
     setSearchParams(params);
     
@@ -83,10 +84,12 @@ const ToolsAndTemplates = () => {
       const templateIdNum = parseInt(templateId);
       console.log("Looking for template with ID:", templateIdNum);
       
+      // Find the template by ID
       const template = templates.find((t) => t.id === templateIdNum);
       console.log("Found template:", template);
       
       if (template) {
+        // Successfully found the template, display it
         setSelectedTemplate(template);
       } else {
         console.log("Template not found, clearing parameter");
@@ -96,9 +99,10 @@ const ToolsAndTemplates = () => {
         setLocation(`/tools-and-templates?${cleanParams.toString()}`);
       }
     } else {
+      // No template ID in URL, show the list view
       setSelectedTemplate(null);
     }
-  }, [location, templates, setLocation]);
+  }, [location, setLocation]);
 
   const handleSelectCategory = (value: string) => {
     setCategoryFilter(value);

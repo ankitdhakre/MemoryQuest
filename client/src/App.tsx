@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -25,6 +25,8 @@ function Router() {
       <Route path="/knowledge-areas" component={KnowledgeAreas} />
       <Route path="/knowledge-areas/:slug" component={KnowledgeAreaDetail} />
       <Route path="/tools-and-templates" component={ToolsAndTemplates} />
+      {/* Add specific route for template with parameter for direct access */}
+      <Route path="/tools-and-templates/:params*" component={ToolsAndTemplates} />
       <Route path="/real-examples" component={RealExamples} />
       <Route component={NotFound} />
     </Switch>
@@ -55,7 +57,10 @@ function App() {
         <SearchProvider>
           <TooltipProvider>
             <Toaster />
-            <AppLayoutWithSearch />
+            {/* Using BaseRouter with hash mode to better handle URL parameters */}
+            <WouterRouter base="/">
+              <AppLayoutWithSearch />
+            </WouterRouter>
           </TooltipProvider>
         </SearchProvider>
       </ThemeProvider>
