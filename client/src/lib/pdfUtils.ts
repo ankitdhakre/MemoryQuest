@@ -1,9 +1,25 @@
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 
+interface ChecklistContent {
+  type: "checklist";
+  items: string[];
+}
+
+interface TemplateContent {
+  type: "template";
+  sections: Record<string, string | string[]>;
+}
+
+interface GenericContent {
+  [key: string]: string | number | boolean;
+}
+
+type ContentType = ChecklistContent | TemplateContent | GenericContent | string;
+
 interface PdfContent {
   title: string;
-  content: any;
+  content: ContentType;
 }
 
 export const generatePdf = async (content: PdfContent, customFilename?: string) => {
@@ -52,45 +68,54 @@ export const generatePdf = async (content: PdfContent, customFilename?: string) 
     // Simple fallback if content object is empty or undefined
     doc.text("No content available", 20, 55);
   } 
-  // Handle different content types
-  else if (content.content.type === "checklist" && Array.isArray(content.content.items)) {
-    // For checklists
-    doc.text("Checklist Items:", 20, 55);
-    
-    content.content.items.forEach((item, index) => {
-      doc.text(`□ ${item}`, 25, 65 + (index * 8));
-    });
-  } else if (content.content.type === "template" && content.content.sections) {
-    // For templates with sections
-    let yPos = 55;
-    
-    Object.entries(content.content.sections).forEach(([section, items]: [string, any]) => {
-      doc.setFontSize(14);
-      doc.text(section, 20, yPos);
-      yPos += 8;
-      
-      doc.setFontSize(12);
-      if (Array.isArray(items)) {
-        items.forEach((item) => {
-          doc.text(`• ${item}`, 25, yPos);
-          yPos += 8;
-        });
-      } else if (typeof items === "string") {
-        doc.text(items, 25, yPos);
-        yPos += 8;
-      }
-      
-      yPos += 5; // Add spacing between sections
-    });
-  } else if (typeof content.content === "string") {
+  // Handle different content types based on their structure
+  else if (typeof content.content === "string") {
     // For simple string content
     const splitText = doc.splitTextToSize(content.content, 170);
     doc.text(splitText, 20, 55);
-  } else {
+  }
+  // Check if content is an object with a type property 
+  else if (typeof content.content === "object" && "type" in content.content) {
+    if (content.content.type === "checklist" && "items" in content.content) {
+      // For checklists
+      doc.text("Checklist Items:", 20, 55);
+      
+      const checklist = content.content as ChecklistContent;
+      checklist.items.forEach((item: string, index: number) => {
+        doc.text(`□ ${item}`, 25, 65 + (index * 8));
+      });
+    } 
+    else if (content.content.type === "template" && "sections" in content.content) {
+      // For templates with sections
+      let yPos = 55;
+      
+      const template = content.content as TemplateContent;
+      Object.entries(template.sections).forEach(([section, items]: [string, string | string[]]) => {
+        doc.setFontSize(14);
+        doc.text(section, 20, yPos);
+        yPos += 8;
+        
+        doc.setFontSize(12);
+        if (Array.isArray(items)) {
+          items.forEach((item: string) => {
+            doc.text(`• ${item}`, 25, yPos);
+            yPos += 8;
+          });
+        } else if (typeof items === "string") {
+          doc.text(items, 25, yPos);
+          yPos += 8;
+        }
+        
+        yPos += 5; // Add spacing between sections
+      });
+    }
+  }
+  // Fall back to generic object handling
+  else {
     // For general object content (like template details)
     let yPos = 55;
     
-    Object.entries(content.content).forEach(([key, value]: [string, any]) => {
+    Object.entries(content.content as GenericContent).forEach(([key, value]) => {
       if (typeof value === "string") {
         doc.setFontSize(14);
         doc.text(key.charAt(0).toUpperCase() + key.slice(1), 20, yPos); // Capitalize first letter

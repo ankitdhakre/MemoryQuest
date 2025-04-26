@@ -14,15 +14,18 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
   const handleDownload = async () => {
     setIsGenerating(true);
     try {
-      // Create a properly formatted PdfContent object
+      // Generate template-specific sample content based on the template category
+      const templateSpecificContent = getTemplateSpecificContent(template);
+      
+      // Create a properly formatted PdfContent object with TemplateContent type
       const pdfContent = {
         title: template.title,
         content: {
-          description: template.description,
-          category: template.category,
-          format: template.format,
-          size: template.size,
-          lastUpdated: template.lastUpdated
+          type: "template" as const, // Using 'as const' to make TypeScript recognize this as a literal
+          sections: {
+            "Overview": template.description,
+            ...templateSpecificContent
+          }
         }
       };
       await generatePdf(pdfContent, `${template.title.replace(/\s+/g, '-').toLowerCase()}.pdf`);
@@ -30,6 +33,168 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
       console.error("Failed to generate PDF:", error);
     } finally {
       setIsGenerating(false);
+    }
+  };
+  
+  // Helper function to generate content specific to the template category
+  const getTemplateSpecificContent = (template: Template) => {
+    switch(template.category) {
+      case "Project Planning":
+        return {
+          "Project Definition": [
+            "Project title and description",
+            "Business case and project justification",
+            "Project objectives and success criteria",
+            "Key stakeholders and their expectations"
+          ],
+          "Scope Management": [
+            "Project deliverables and exclusions",
+            "Constraints and assumptions",
+            "Work breakdown structure (WBS)",
+            "Scope change control procedures"
+          ],
+          "Time Management": [
+            "Project schedule/timeline",
+            "Key milestones and dependencies",
+            "Resource allocation timeline",
+            "Schedule management approach"
+          ],
+          "Resource Planning": [
+            "Team structure and roles",
+            "External resource requirements",
+            "Budget allocation and financial considerations",
+            "Equipment and materials needed"
+          ]
+        };
+      
+      case "Risk Management":
+        return {
+          "Risk Identification": [
+            "Potential risks and their sources",
+            "Risk categories (strategic, operational, financial, compliance)",
+            "Risk assessment methodology",
+            "Risk register template"
+          ],
+          "Risk Analysis": [
+            "Probability and impact assessment",
+            "Risk prioritization matrix",
+            "Qualitative and quantitative analysis techniques",
+            "Risk exposure calculation"
+          ],
+          "Risk Response Planning": [
+            "Risk mitigation strategies",
+            "Risk avoidance approaches",
+            "Risk transfer options",
+            "Risk acceptance criteria"
+          ],
+          "Risk Monitoring": [
+            "Risk tracking mechanisms",
+            "Early warning indicators",
+            "Reporting structures",
+            "Response effectiveness evaluation"
+          ]
+        };
+        
+      case "Communication":
+        return {
+          "Stakeholder Analysis": [
+            "Stakeholder identification and mapping",
+            "Power/interest grid",
+            "Engagement level assessment",
+            "Stakeholder priorities and concerns"
+          ],
+          "Communication Strategy": [
+            "Communication objectives and success criteria",
+            "Key messages by stakeholder group",
+            "Communication channels and frequency",
+            "Feedback mechanisms"
+          ],
+          "Communication Matrix": [
+            "Who needs what information",
+            "When information should be distributed",
+            "How information will be delivered",
+            "Who is responsible for communication"
+          ],
+          "Reporting Structure": [
+            "Progress reporting format and schedule",
+            "Escalation procedures",
+            "Meeting cadence and participants",
+            "Documentation requirements"
+          ]
+        };
+        
+      case "Quality Management":
+        return {
+          "Quality Planning": [
+            "Quality standards and requirements",
+            "Quality metrics and acceptance criteria",
+            "Quality assurance approach",
+            "Quality control processes"
+          ],
+          "Quality Assurance": [
+            "Process audit schedules",
+            "Standards compliance checklist",
+            "Training requirements",
+            "Continuous improvement mechanisms"
+          ],
+          "Quality Control": [
+            "Testing and inspection procedures",
+            "Defect tracking methodology",
+            "Correction and prevention actions",
+            "Verification and validation approach"
+          ],
+          "Quality Tools": [
+            "Root cause analysis techniques",
+            "Statistical quality control methods",
+            "Quality reviews and inspections",
+            "Documentation practices"
+          ]
+        };
+        
+      case "Monitoring and Evaluation":
+        return {
+          "Performance Metrics": [
+            "Key performance indicators (KPIs)",
+            "Data collection methodology",
+            "Baseline measurements",
+            "Target values and thresholds"
+          ],
+          "Evaluation Framework": [
+            "Evaluation questions and criteria",
+            "Evaluation methods and tools",
+            "Timing and frequency of evaluations",
+            "Roles and responsibilities"
+          ],
+          "Reporting System": [
+            "Report types and formats",
+            "Reporting schedule",
+            "Information dissemination plan",
+            "Data visualization approaches"
+          ],
+          "Learning and Adaptation": [
+            "Lessons learned documentation",
+            "Continuous improvement process",
+            "Knowledge management system",
+            "Feedback incorporation mechanisms"
+          ]
+        };
+        
+      default:
+        // Default generic content if category doesn't match
+        return {
+          "Template Information": [
+            `Category: ${template.category}`,
+            `Format: ${template.format}`,
+            `Size: ${template.size}`,
+            `Last Updated: ${template.lastUpdated}`
+          ],
+          "Instructions": [
+            "Download and customize this template to fit your specific needs",
+            "Fill in all required sections with your project information",
+            "Share with relevant stakeholders for review and input",
+            "Update regularly throughout your project lifecycle"
+          ]
+        };
     }
   };
 
