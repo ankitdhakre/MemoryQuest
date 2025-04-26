@@ -17,19 +17,34 @@ import { templates, Template } from "@/data/templates";
 const getTemplateImage = (template: Template): string => {
   // Map of category to relevant images
   const templateImages: Record<string, string> = {
-    "Project Planning": "https://images.unsplash.com/photo-1572177812156-58036aae439c?q=80&w=500&auto=format&fit=crop",
-    "Risk Management": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=500&auto=format&fit=crop", 
-    "Communication": "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=500&auto=format&fit=crop",
-    "Quality Management": "https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?q=80&w=500&auto=format&fit=crop",
-    "Monitoring and Evaluation": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=500&auto=format&fit=crop",
-    "Budget Management": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=500&auto=format&fit=crop",
-    "Stakeholder Management": "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=500&auto=format&fit=crop",
-    "Planning Templates": "https://images.unsplash.com/photo-1462826303085-a8c8060a9e80?q=80&w=500&auto=format&fit=crop",
-    "Strategic Planning": "https://images.unsplash.com/photo-1507208773393-40d9fc670c31?q=80&w=500&auto=format&fit=crop"
+    "Project Planning": "https://images.unsplash.com/photo-1460794418188-1bb7dba2720d?w=500&auto=format&fit=crop&q=60",
+    "Risk Management": "https://images.unsplash.com/photo-1606189455660-927d4564efb5?w=500&auto=format&fit=crop&q=60", 
+    "Communication": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&auto=format&fit=crop&q=60",
+    "Quality Management": "https://images.unsplash.com/photo-1568430462989-44163eb1b109?w=500&auto=format&fit=crop&q=60",
+    "Monitoring and Evaluation": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=60",
+    "Budget Management": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&auto=format&fit=crop&q=60",
+    "Stakeholder Management": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&auto=format&fit=crop&q=60",
+    "Planning Templates": "https://images.unsplash.com/photo-1581574919402-5b7d733224d6?w=500&auto=format&fit=crop&q=60",
+    "Strategic Planning": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&auto=format&fit=crop&q=60"
   };
   
-  // Default image if category not found
-  return templateImages[template.category] || "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?q=80&w=500&auto=format&fit=crop";
+  // For templates that don't match exact categories, try to match by title
+  if (!templateImages[template.category]) {
+    if (template.title.includes("Charter")) {
+      return "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=500&auto=format&fit=crop&q=60"; // Project Charter
+    } else if (template.title.includes("WBS")) {
+      return "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=500&auto=format&fit=crop&q=60"; // WBS
+    } else if (template.title.includes("Risk")) {
+      return "https://images.unsplash.com/photo-1658197813572-67become0050?w=500&auto=format&fit=crop&q=60"; // Risk Register
+    } else if (template.title.includes("Gantt")) {
+      return "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&auto=format&fit=crop&q=60"; // Gantt Chart
+    } else if (template.title.includes("Budget")) {
+      return "https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=500&auto=format&fit=crop&q=60"; // Budget
+    }
+  }
+  
+  // Default image if category and title-based matching both fail
+  return templateImages[template.category] || "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?w=500&auto=format&fit=crop&q=60";
 };
 
 const ToolsAndTemplates = () => {
