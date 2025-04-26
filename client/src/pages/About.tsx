@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ContactForm from "@/components/shared/ContactForm";
 import ShareButtons from "@/components/shared/ShareButtons";
+import ankitPhoto from "../photo/Ankit Passport size photo.jpg";
 
 const About = () => {
   return (
@@ -24,9 +25,13 @@ const About = () => {
               <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
                 <div className="md:w-1/3 flex flex-col items-center">
                   <div className="h-48 w-48 rounded-full overflow-hidden border-4 border-primary-200 dark:border-primary-700 bg-neutral-200 mb-4">
-                    {/* Profile placeholder with initial */}
-                    <div className="h-full w-full flex items-center justify-center bg-primary-600 text-white text-6xl font-bold">
-                      A
+                    {/* Profile photo */}
+                    <div className="h-full w-full">
+                      <img 
+                        src={ankitPhoto} 
+                        alt="Ankit Dhakre" 
+                        className="h-full w-full object-cover"
+                      />
                     </div>
                   </div>
                   <h2 className="font-heading font-medium text-xl mb-2 text-center">Ankit Dhakre</h2>
