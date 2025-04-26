@@ -40,16 +40,23 @@ const ToolsAndTemplates = () => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setSearchParams(params);
-    console.log(params);
+    
     // Check if there's a template ID in the URL
     const templateId = params.get("template");
     if (templateId) {
       const template = templates.find((t) => t.id === parseInt(templateId));
-      setSelectedTemplate(template || null);
+      if (template) {
+        setSelectedTemplate(template);
+      } else {
+        // If template not found, clear the parameter
+        const cleanParams = new URLSearchParams(params);
+        cleanParams.delete("template");
+        setLocation(`/tools-and-templates?${cleanParams.toString()}`);
+      }
     } else {
       setSelectedTemplate(null);
     }
-  }, [location]);
+  }, [location, templates, setLocation]);
 
   const handleSelectCategory = (value: string) => {
     setCategoryFilter(value);

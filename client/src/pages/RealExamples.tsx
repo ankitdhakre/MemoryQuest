@@ -36,11 +36,18 @@ const RealExamples = () => {
     const exampleSlug = params.get('example') || window.location.pathname.split('/').pop();
     if (exampleSlug) {
       const example = examples.find(e => e.slug === exampleSlug);
-      setSelectedExample(example || null);
+      if (example) {
+        setSelectedExample(example);
+      } else {
+        // If example not found, clear the parameter
+        const cleanParams = new URLSearchParams(params);
+        cleanParams.delete("example");
+        setLocation(`/real-examples?${cleanParams.toString()}`);
+      }
     } else {
       setSelectedExample(null);
     }
-  }, [location]);
+  }, [location, examples, setLocation]);
 
   const handleSelectSector = (value: string) => {
     setSectorFilter(value);
