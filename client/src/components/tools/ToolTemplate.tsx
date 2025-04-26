@@ -77,36 +77,64 @@ const getProjectManagementInfoLink = (template: Template): string => {
 
 // Get a relevant image for each template category
 const getTemplateImage = (template: Template): string => {
-  // Map of category to relevant images
+  // Direct mapping to topic-specific images based on PM knowledge area
+  const pmImages: Record<string, string> = {
+    "Integration Management": "https://www.sprintzeal.com/blog/project-integration-management",
+    "Scope Management": "https://www.whizlabs.com/blog/project-scope-management/",
+    "Schedule Management": "https://www.edureka.co/blog/project-schedule-management/",
+    "Cost Management": "https://www.migso-pcubed.com/blog/cost-management/the-4-step-cost-management-process/",
+    "Quality Management": "https://www.qualitygurus.com/quality-management-what-it-is/",
+    "Resource Management": "https://www.shopify.com/blog/what-is-resource-management",
+    "Communication Management": "https://www.culturemonkey.io/employee-engagement/management-communication/",
+    "Risk Management": "https://www.mega.com/blog/what-is-risk-management-process",
+    "Procurement Management": "https://docshipper.com/guest-blogging/steps-procurement-management-optimize-processes/",
+    "Stakeholder Management": "https://www.brentnalls-sa.com.au/the-importance-of-stakeholder-management",
+    "Change Management": "https://www.istockphoto.com/photos/change-management",
+    "Benefit Management": "https://ipma.world/guide-effective-benefits-management/"
+  };
+  
+  // Category-based image matching for fallback
   const templateImages: Record<string, string> = {
-    "Project Planning": "https://images.unsplash.com/photo-1460794418188-1bb7dba2720d?w=600&auto=format&fit=crop&q=60",
-    "Risk Management": "https://images.unsplash.com/photo-1606189455660-927d4564efb5?w=600&auto=format&fit=crop&q=60", 
-    "Communication": "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&auto=format&fit=crop&q=60",
-    "Quality Management": "https://images.unsplash.com/photo-1568430462989-44163eb1b109?w=600&auto=format&fit=crop&q=60",
-    "Monitoring and Evaluation": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=60",
-    "Budget Management": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&auto=format&fit=crop&q=60",
-    "Stakeholder Management": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&auto=format&fit=crop&q=60",
-    "Planning Templates": "https://images.unsplash.com/photo-1581574919402-5b7d733224d6?w=600&auto=format&fit=crop&q=60",
-    "Strategic Planning": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600&auto=format&fit=crop&q=60"
+    "Project Planning": "https://www.sprintzeal.com/blog/project-integration-management",
+    "Risk Management": "https://www.mega.com/blog/what-is-risk-management-process", 
+    "Communication": "https://www.culturemonkey.io/employee-engagement/management-communication/",
+    "Quality Management": "https://www.qualitygurus.com/quality-management-what-it-is/",
+    "Monitoring and Evaluation": "https://www.whizlabs.com/blog/project-scope-management/",
+    "Budget Management": "https://www.migso-pcubed.com/blog/cost-management/the-4-step-cost-management-process/",
+    "Stakeholder Management": "https://www.brentnalls-sa.com.au/the-importance-of-stakeholder-management",
+    "Planning Templates": "https://www.sprintzeal.com/blog/project-integration-management",
+    "Strategic Planning": "https://www.edureka.co/blog/project-schedule-management/"
   };
   
   // For templates that don't match exact categories, try to match by title
-  if (!templateImages[template.category]) {
-    if (template.title.includes("Charter")) {
-      return "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600&auto=format&fit=crop&q=60"; // Project Charter
-    } else if (template.title.includes("WBS")) {
-      return "https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=600&auto=format&fit=crop&q=60"; // WBS
-    } else if (template.title.includes("Risk")) {
-      return "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?w=600&auto=format&fit=crop&q=60"; // Risk Register
-    } else if (template.title.includes("Gantt")) {
-      return "https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=600&auto=format&fit=crop&q=60"; // Gantt Chart
-    } else if (template.title.includes("Budget")) {
-      return "https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=600&auto=format&fit=crop&q=60"; // Budget
-    }
+  if (template.title.includes("Charter") || template.title.includes("Integration")) {
+    return "https://www.sprintzeal.com/blog/project-integration-management"; // Integration Management
+  } else if (template.title.includes("WBS") || template.title.includes("Scope")) {
+    return "https://www.whizlabs.com/blog/project-scope-management/"; // Scope Management
+  } else if (template.title.includes("Schedule") || template.title.includes("Gantt")) {
+    return "https://www.edureka.co/blog/project-schedule-management/"; // Schedule Management
+  } else if (template.title.includes("Budget") || template.title.includes("Cost")) {
+    return "https://www.migso-pcubed.com/blog/cost-management/the-4-step-cost-management-process/"; // Cost Management
+  } else if (template.title.includes("Quality")) {
+    return "https://www.qualitygurus.com/quality-management-what-it-is/"; // Quality Management
+  } else if (template.title.includes("Resource")) {
+    return "https://www.shopify.com/blog/what-is-resource-management"; // Resource Management
+  } else if (template.title.includes("Communication")) {
+    return "https://www.culturemonkey.io/employee-engagement/management-communication/"; // Communication Management
+  } else if (template.title.includes("Risk")) {
+    return "https://www.mega.com/blog/what-is-risk-management-process"; // Risk Management
+  } else if (template.title.includes("Procurement")) {
+    return "https://docshipper.com/guest-blogging/steps-procurement-management-optimize-processes/"; // Procurement Management
+  } else if (template.title.includes("Stakeholder")) {
+    return "https://www.brentnalls-sa.com.au/the-importance-of-stakeholder-management"; // Stakeholder Management
+  } else if (template.title.includes("Change")) {
+    return "https://www.istockphoto.com/photos/change-management"; // Change Management
+  } else if (template.title.includes("Benefit")) {
+    return "https://ipma.world/guide-effective-benefits-management/"; // Benefit Management
   }
   
-  // Default image if category and title-based matching both fail
-  return templateImages[template.category] || "https://images.unsplash.com/photo-1512758017271-d7b84c2113f1?w=600&auto=format&fit=crop&q=60";
+  // Default image if all matching attempts fail
+  return templateImages[template.category] || "https://www.sprintzeal.com/blog/project-integration-management";
 };
 
 const ToolTemplate = ({ template }: ToolTemplateProps) => {
