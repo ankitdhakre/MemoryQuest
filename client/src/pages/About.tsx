@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet";
 import Breadcrumb from "@/components/layout/Breadcrumb";
-import ContactForm from "@/components/shared/ContactForm";
 import ShareButtons from "@/components/shared/ShareButtons";
 import ankitPhoto from "../photo/Ankit Passport size photo.jpg";
 
@@ -38,14 +37,11 @@ const About = () => {
                   <p className="text-neutral-600 dark:text-neutral-400 text-center mb-2">MSc Project Management</p>
                   <p className="text-neutral-600 dark:text-neutral-400 text-center mb-4">UCD Smurfit Business School</p>
                   <div className="flex space-x-4">
-                    <a href="mailto:ankit@example.com" className="text-primary-500 hover:text-primary-600 transition-colors" aria-label="Email">
+                    <a href="mailto:ankit.dhakre@ucdconnect.ie" className="text-primary-500 hover:text-primary-600 transition-colors" aria-label="Email">
                       <span className="material-icons">email</span>
                     </a>
-                    <a href="#" className="text-primary-500 hover:text-primary-600 transition-colors" aria-label="LinkedIn">
-                      <span className="material-icons">link</span>
-                    </a>
-                    <a href="#" className="text-primary-500 hover:text-primary-600 transition-colors" aria-label="Academic profile">
-                      <span className="material-icons">school</span>
+                    <a href="https://www.linkedin.com/in/ankit-dhakre-02248b2b2/" target="_blank" rel="noopener noreferrer" className="text-primary-500 hover:text-primary-600 transition-colors" aria-label="LinkedIn">
+                      <span className="material-icons">linkedin</span>
                     </a>
                     <ShareButtons title="About Ankit Dhakre - ProjectWise" path="/about" />
                   </div>
@@ -94,13 +90,7 @@ const About = () => {
               </p>
             </div>
             
-            <h2 className="font-heading font-semibold text-2xl mb-6">Contact Me</h2>
-            <div className="bg-neutral-50 dark:bg-neutral-700 rounded-lg p-8 shadow-md">
-              <p className="text-neutral-700 dark:text-neutral-300 mb-6">
-                Have questions about ProjectWise or want to discuss project management for your organization? Feel free to reach out using the form below.
-              </p>
-              <ContactForm />
-            </div>
+
           </div>
         </div>
       </div>

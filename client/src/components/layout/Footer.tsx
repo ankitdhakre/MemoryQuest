@@ -12,14 +12,11 @@ const Footer = () => {
               A comprehensive project management resource designed specifically for small to medium enterprises and charitable organizations.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors" aria-label="Facebook">
-                <span className="material-icons">facebook</span>
-              </a>
-              <a href="mailto:contact@projectwise.org" className="text-neutral-400 hover:text-white transition-colors" aria-label="Email">
+              <a href="mailto:ankit.dhakre@ucdconnect.ie" className="text-neutral-400 hover:text-white transition-colors" aria-label="Email">
                 <span className="material-icons">email</span>
               </a>
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors" aria-label="Website">
-                <span className="material-icons">link</span>
+              <a href="https://www.linkedin.com/in/ankit-dhakre-02248b2b2/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                <span className="material-icons">linkedin</span>
               </a>
             </div>
           </div>
