@@ -92,7 +92,13 @@ const ToolsAndTemplates = ({ params }: { params?: string }) => {
 
     // Check if there's a template ID in the URL query params or in the URL path
     const queryTemplateId = urlParams.get("template");
-    const pathTemplateId = params1?.id || params?.split('/')[0];
+    // Safely handle params - it might be a string or undefined
+    let pathTemplateId;
+    if (params1?.id) {
+      pathTemplateId = params1.id;
+    } else if (typeof params === 'string' && params) {
+      pathTemplateId = params.split('/')[0];
+    }
     
     const templateId = queryTemplateId || pathTemplateId;
     console.log("Template ID:", templateId, "Query:", queryTemplateId, "Path:", pathTemplateId);
