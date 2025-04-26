@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import ankitPhoto from "../../photo/Ankit Passport size photo.jpg";
 
 const AuthorSection = () => {
   return (
@@ -9,22 +10,23 @@ const AuthorSection = () => {
             <div className="md:w-1/3 bg-primary-500 dark:bg-primary-700 p-6 text-white">
               <h2 className="font-heading font-semibold text-2xl mb-4">About the Author</h2>
               <div className="mb-4 h-40 w-40 mx-auto rounded-full overflow-hidden border-4 border-white bg-neutral-200">
-                {/* Profile placeholder with initial */}
-                <div className="h-full w-full flex items-center justify-center bg-primary-600 text-white text-5xl font-bold">
-                  A
+                {/* Profile photo */}
+                <div className="h-full w-full">
+                  <img 
+                    src={ankitPhoto} 
+                    alt="Ankit Dhakre" 
+                    className="h-full w-full object-cover"
+                  />
                 </div>
               </div>
               <h3 className="font-heading font-medium text-xl text-center">Ankit Dhakre</h3>
               <p className="text-center text-white/80 mb-4">MSc Project Management</p>
               <div className="flex justify-center space-x-3">
-                <a href="mailto:ankit@example.com" className="hover:text-white/80 transition-colors" aria-label="Email">
+                <a href="mailto:ankit.dhakre@ucdconnect.ie" className="hover:text-white/80 transition-colors" aria-label="Email">
                   <span className="material-icons">email</span>
                 </a>
-                <a href="#" className="hover:text-white/80 transition-colors" aria-label="LinkedIn">
-                  <span className="material-icons">link</span>
-                </a>
-                <a href="#" className="hover:text-white/80 transition-colors" aria-label="Academic profile">
-                  <span className="material-icons">school</span>
+                <a href="https://www.linkedin.com/in/ankit-dhakre-02248b2b2/" target="_blank" rel="noopener noreferrer" className="hover:text-white/80 transition-colors" aria-label="LinkedIn">
+                  <span className="material-icons">linkedin</span>
                 </a>
               </div>
             </div>
