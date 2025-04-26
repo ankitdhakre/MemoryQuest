@@ -134,6 +134,10 @@ const ToolTemplate = ({ template }: ToolTemplateProps) => {
           src={getTemplateImage(template)} 
           alt={`${template.title} knowledge area image`} 
           className="w-full h-full object-cover"
+          onError={(e) => {
+            // Fallback image if the dynamic one fails to load
+            e.currentTarget.src = "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?w=600&auto=format&fit=crop&q=60";
+          }}
         />
       </div>
       

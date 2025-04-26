@@ -145,17 +145,17 @@ const ToolsAndTemplates = () => {
   return (
     <>
       <Helmet>
-        <title>Tools & Templates - ProjectWise</title>
+        <title>Project Management Knowledge Areas - ProjectWise</title>
         <meta
           name="description"
-          content="Download free project management templates and resources for small businesses and charities."
+          content="Explore project management knowledge areas and resources for small businesses and charities."
         />
       </Helmet>
 
       <Breadcrumb
         items={[
           {
-            label: "Tools & Templates",
+            label: "Knowledge Areas",
             path: "/tools-and-templates",
             isCurrent: true,
           },
@@ -222,7 +222,7 @@ const ToolsAndTemplates = () => {
                     </span>
                     <Input
                       type="text"
-                      placeholder="Search templates..."
+                      placeholder="Search knowledge areas..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="w-full pl-10 pr-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md bg-white dark:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-primary-500"
@@ -306,7 +306,7 @@ const ToolsAndTemplates = () => {
                       search_off
                     </span>
                     <p className="text-neutral-600 dark:text-neutral-400 mb-2">
-                      No templates found matching your criteria
+                      No knowledge areas found matching your criteria
                     </p>
                     <p className="text-sm text-neutral-500 dark:text-neutral-500">
                       Try different keywords or clear filters
