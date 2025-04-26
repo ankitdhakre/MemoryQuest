@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "wouter";
+import { useLocation, useRoute } from "wouter";
 import { Helmet } from "react-helmet";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import ToolTemplate from "@/components/tools/ToolTemplate";
@@ -59,8 +59,9 @@ const getTemplateImage = (template: Template): string => {
   );
 };
 
-const ToolsAndTemplates = () => {
+const ToolsAndTemplates = ({ params }: { params?: string }) => {
   const [location, setLocation] = useLocation();
+  const [, params1] = useRoute('/tools-and-templates/:id');
   const [searchParams, setSearchParams] = useState(
     new URLSearchParams(window.location.search),
   );
@@ -86,12 +87,15 @@ const ToolsAndTemplates = () => {
 
   useEffect(() => {
     // Get URL parameters
-    const params = new URLSearchParams(window.location.search);
-    setSearchParams(params);
+    const urlParams = new URLSearchParams(window.location.search);
+    setSearchParams(urlParams);
 
-    // Check if there's a template ID in the URL
-    const templateId = params.get("template");
-    console.log("Template ID from URL:", templateId);
+    // Check if there's a template ID in the URL query params or in the URL path
+    const queryTemplateId = urlParams.get("template");
+    const pathTemplateId = params1?.id || params?.split('/')[0];
+    
+    const templateId = queryTemplateId || pathTemplateId;
+    console.log("Template ID:", templateId, "Query:", queryTemplateId, "Path:", pathTemplateId);
 
     if (templateId) {
       const templateIdNum = parseInt(templateId);
@@ -107,17 +111,21 @@ const ToolsAndTemplates = () => {
         console.log("Setting selected template:", template);
       } else {
         console.log("Template not found, clearing parameter");
-        // If template not found, clear the parameter
-        const cleanParams = new URLSearchParams(params);
-        cleanParams.delete("template");
-        setLocation(`/tools-and-templates?${cleanParams.toString()}`);
+        // If template not found, clear the parameter and redirect
+        if (queryTemplateId) {
+          const cleanParams = new URLSearchParams(urlParams);
+          cleanParams.delete("template");
+          setLocation(`/tools-and-templates?${cleanParams.toString()}`);
+        } else {
+          setLocation('/tools-and-templates');
+        }
       }
     } else {
       console.log("No template ID in URL, showing list view");
       // No template ID in URL, show the list view
       setSelectedTemplate(null);
     }
-  }, [location, setLocation]);
+  }, [location, setLocation, params, params1]);
 
   // Debug: Log when selectedTemplate changes
   useEffect(() => {
