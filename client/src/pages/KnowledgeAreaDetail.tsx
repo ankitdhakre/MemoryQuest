@@ -7,12 +7,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ShareButtons from "@/components/shared/ShareButtons";
 import PdfGenerator from "@/components/shared/PdfGenerator";
 import { knowledgeAreas, KnowledgeArea } from "@/data/knowledgeAreas";
-import { templates } from "@/data/templates";
 
 const KnowledgeAreaDetail = () => {
   const [, params] = useRoute("/knowledge-areas/:slug");
   const [area, setArea] = useState<KnowledgeArea | null>(null);
-  const [relatedTemplates, setRelatedTemplates] = useState<typeof templates>([]);
   const [nextArea, setNextArea] = useState<KnowledgeArea | null>(null);
   const [prevArea, setPrevArea] = useState<KnowledgeArea | null>(null);
 
@@ -22,12 +20,6 @@ const KnowledgeAreaDetail = () => {
       setArea(currentArea);
 
       if (currentArea) {
-        // Find related templates
-        const related = templates.filter(t => 
-          t.relatedKnowledgeAreas.includes(currentArea.id)
-        );
-        setRelatedTemplates(related);
-
         // Find next and previous areas
         const currentIndex = knowledgeAreas.findIndex(k => k.id === currentArea.id);
         setPrevArea(currentIndex > 0 ? knowledgeAreas[currentIndex - 1] : null);
@@ -89,8 +81,6 @@ const KnowledgeAreaDetail = () => {
             <Tabs defaultValue="overview" className="mb-12">
               <TabsList className="mb-6">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="tools">Tools & Templates</TabsTrigger>
-                <TabsTrigger value="application">Real-World Application</TabsTrigger>
                 <TabsTrigger value="resources">Resources</TabsTrigger>
               </TabsList>
               
@@ -122,76 +112,6 @@ const KnowledgeAreaDetail = () => {
                     }}
                     filename={`${area.slug}-overview.pdf`}
                   />
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="tools" className="space-y-6">
-                <div className="bg-neutral-50 dark:bg-neutral-700 p-6 rounded-lg border border-neutral-200 dark:border-neutral-600">
-                  <h2 className="font-heading font-semibold text-xl mb-4">Tools for {area.title}</h2>
-                  
-                  {area.tools.length > 0 ? (
-                    <div className="space-y-6">
-                      {area.tools.map((tool, index) => (
-                        <div key={index} className="border-b border-neutral-200 dark:border-neutral-600 pb-4 last:border-b-0 last:pb-0">
-                          <h3 className="font-heading font-medium text-lg mb-2">{tool.title}</h3>
-                          <p className="text-neutral-700 dark:text-neutral-300 mb-2">
-                            {tool.description}
-                          </p>
-                          {tool.templateId && (
-                            <Link 
-                              href={`/tools-and-templates?template=${tool.templateId}`}
-                              className="text-primary-500 hover:text-primary-600 inline-flex items-center text-sm font-medium"
-                            >
-                              <span>Download template</span>
-                              <span className="material-icons text-sm ml-1">download</span>
-                            </Link>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-neutral-700 dark:text-neutral-300">
-                      No specific tools are available for this knowledge area yet.
-                    </p>
-                  )}
-                </div>
-                
-                {relatedTemplates.length > 0 && (
-                  <div className="bg-neutral-50 dark:bg-neutral-700 p-6 rounded-lg border border-neutral-200 dark:border-neutral-600">
-                    <h2 className="font-heading font-semibold text-xl mb-4">Related Templates</h2>
-                    <ul className="space-y-3">
-                      {relatedTemplates.map(template => (
-                        <li key={template.id} className="flex items-center justify-between">
-                          <span className="text-neutral-800 dark:text-neutral-200">{template.title}</span>
-                          <Link 
-                            href={`/tools-and-templates?template=${template.id}`}
-                            className="text-primary-500 hover:text-primary-600 flex items-center"
-                          >
-                            <span className="material-icons text-sm">download</span>
-                            <span className="ml-1 text-sm">PDF</span>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </TabsContent>
-              
-              <TabsContent value="application" className="space-y-6">
-                <div className="bg-neutral-50 dark:bg-neutral-700 p-6 rounded-lg border border-neutral-200 dark:border-neutral-600">
-                  <h2 className="font-heading font-semibold text-xl mb-4">Real-World Application</h2>
-                  <p className="text-neutral-700 dark:text-neutral-300 mb-4">
-                    {area.realWorldApplication}
-                  </p>
-                  
-                  <h3 className="font-heading font-medium text-lg mb-3">Practical Tips for SMEs & Charities</h3>
-                  <ul className="space-y-2 pl-6 list-disc text-neutral-700 dark:text-neutral-300">
-                    <li>Start small - implement basic principles first before adding complexity</li>
-                    <li>Adapt the processes to fit your organization's size and culture</li>
-                    <li>Use free or low-cost tools that are specifically designed for small teams</li>
-                    <li>Focus on the elements that provide the most value for your specific projects</li>
-                    <li>Document your processes so they can be reused for future projects</li>
-                  </ul>
                 </div>
               </TabsContent>
               

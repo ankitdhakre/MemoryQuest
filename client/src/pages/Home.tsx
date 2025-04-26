@@ -1,9 +1,7 @@
 import HeroSection from "@/components/home/HeroSection";
 import IntroSection from "@/components/home/IntroSection";
 import KnowledgeAreasSection from "@/components/home/KnowledgeAreasSection";
-import ToolsSection from "@/components/home/ToolsSection";
 import AuthorSection from "@/components/home/AuthorSection";
-import RealExamplesSection from "@/components/home/RealExamplesSection";
 import CtaSection from "@/components/home/CtaSection";
 import { Helmet } from "react-helmet";
 
@@ -18,9 +16,7 @@ const Home = () => {
       <HeroSection />
       <IntroSection />
       <KnowledgeAreasSection />
-      <ToolsSection />
       <AuthorSection />
-      <RealExamplesSection />
       <CtaSection />
     </>
   );
